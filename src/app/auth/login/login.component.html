@@ -6,6 +6,8 @@
         <div class="card-body">
             <form class="form-horizontal form-material" 
                     autocomplete="off"
+                    [formGroup]="loginForm"
+                    (ngSubmit)="loginUsuario()"
                     id="loginform">
 
                 <a href="javascript:void(0)" class="text-center db"><img src="images/logo-icon.png" alt="Home" /><br/><img src="images/logo-text.png" alt="Home" /></a>
