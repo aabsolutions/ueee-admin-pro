@@ -34,10 +34,7 @@ export class LoginComponent {
 
     this.authSvr.login( this.loginForm.value )
       .subscribe( resp => {
-
-        console.log(resp);
-
-        if ( this.loginForm.get('remember')?.value ){ 
+        if ( this.loginForm.get('remember')?.value ){
           localStorage.setItem('email', this.loginForm.get('email')?.value );
         } else {
           localStorage.removeItem('email');

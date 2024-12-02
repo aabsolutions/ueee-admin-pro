@@ -17,11 +17,11 @@ const base_url = environment.base_url;
 export class AuthService {
 
   public usuario!: Usuario;
-  
+
   constructor( private http: HttpClient,
     private router: Router,
     private ngZone: NgZone) {}
-    
+
     get token(): string{
     return localStorage.getItem('token') || '';
   }
@@ -46,7 +46,7 @@ export class AuthService {
     localStorage.setItem('token', token );
     localStorage.setItem('menu', JSON.stringify(menu) );
   }
-  
+
   logout() {
     localStorage.removeItem('token');
     localStorage.removeItem('menu');
@@ -57,15 +57,15 @@ export class AuthService {
   }
 
   validarToken(): Observable<boolean> {
-    
-    return this.http.get(`${ base_url }/login/renew`, {
+
+    return this.http.get(`${ base_url }/auth/renew`, {
       headers: {
-        'x-token': this.token
+        'Authorization': `Bearer ${this.token}`
       }
     }).pipe(
       map( (resp: any) => {
-        const { nombre, email, img='', google, role, uid } = resp.usuario;
-        this.usuario = new Usuario( nombre, email, '', img, role, uid );
+        const { fullName, email, isActive, roles, _id } = resp.usuario;
+        this.usuario = new Usuario( _id, fullName, email, isActive, roles);
         this.guardarLocalStorage(resp.token, resp.menu);
         return true;
       }),
@@ -111,7 +111,13 @@ export class AuthService {
         map( resp => {
           const usuarios = resp.usuarios.map(
             //hay que tener presente el orden en el que se traen los datos desde el modelo
-            user => new Usuario(user.fullName, user.email, '', user.roles, user._id)
+            user => new Usuario(
+              user._id,
+              user.fullName,
+              user.email,
+              user.password,
+              user.roles
+            )
           );
           return {
             total: resp.total,

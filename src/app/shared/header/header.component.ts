@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { Usuario } from '../../core/models/usuario.model';
+import { AuthService } from '../../core/services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -7,20 +10,23 @@ import { Component } from '@angular/core';
   styleUrl: './header.component.css'
 })
 export class HeaderComponent {
-  // public usuario: string;
 
-  // constructor( private usuarioService: UsuarioService,
-  //              private router: Router ) {
-  //   this.usuario = usuarioService.usuario;
-  // }
+  public usuario: Usuario;
+
+  constructor( private authService: AuthService,
+               private router: Router ) {
+
+    this.usuario = authService.usuario;
+  }
 
   logout() {
-    // this.usuarioService.logout();
+    this.authService.logout();
   }
 
   buscar( termino: string ){
-    // this.router.navigateByUrl(`/dashboard/buscar/${termino}`);
+    this.router.navigateByUrl(`/dashboard/buscar/${termino}`);
   }
+
 
 
 }
