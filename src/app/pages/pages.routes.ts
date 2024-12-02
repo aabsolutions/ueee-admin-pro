@@ -3,7 +3,8 @@ import { DashboardComponent } from "./dashboard/dashboard.component";
 import { PagesComponent } from "./pages.component";
 
 export const PAGES_ROUTES: Routes = [
-    { path: '',
+    {
+      path:'',
       component: PagesComponent,
       loadChildren: () => import('./child.routes').then(m => m.CHILD_ROUTES)
     }
