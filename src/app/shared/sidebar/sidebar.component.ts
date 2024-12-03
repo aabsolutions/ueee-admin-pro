@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, Inject, InjectionToken } from '@angular/core';
 import { Usuario } from '../../core/models/usuario.model';
 import { SidebarService } from '../../core/services/sidebar.service';
 import { AuthService } from '../../core/services/auth.service';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { Menu } from '../../core/interfaces/menu.interface';
 
 @Component({
   selector: 'app-sidebar',
@@ -13,14 +14,16 @@ import { CommonModule } from '@angular/common';
 })
 export class SidebarComponent {
 
-  public usuario: Usuario;
-  public menu;
+  public menu: Menu[] = [];
 
-  constructor( public sidebarSrv: SidebarService,
-               private authService: AuthService){
+  constructor( private authService: AuthService,
+      public sidebarService: SidebarService ){
 
-    this.usuario = authService.usuario;
-    this.menu = this.sidebarSrv.cargarMenu();
+        this.sidebarService.cargarMenu();
+
+        this.menu = this.sidebarService.menu;
+
+        console.log(this.menu);
   }
 
 
